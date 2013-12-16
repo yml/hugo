@@ -131,6 +131,10 @@ func SafeHtml(text string) template.HTML {
 	return template.HTML(text)
 }
 
+func Thumbnail(file, width, height string) template.HTML {
+	return template.HTML(helpers.ThumbnailUrl(file, width, height))
+}
+
 type Template interface {
 	ExecuteTemplate(wr io.Writer, name string, data interface{}) error
 	Lookup(name string) *template.Template
@@ -164,6 +168,7 @@ func NewTemplate() Template {
 		"safeHtml":  SafeHtml,
 		"first":     First,
 		"highlight": Highlight,
+		"thumbnail": Thumbnail,
 	}
 
 	templates.Funcs(funcMap)

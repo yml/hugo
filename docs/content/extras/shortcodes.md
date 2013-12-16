@@ -85,6 +85,42 @@ Would be rendered as:
         </figcaption>
     </figure>
 
+### Example: Thumbnail image with caption
+*Example has an extra space so Hugo does not actually render it*
+
+	{{ % thumbnail src="/media/spf13.jpg" width="100" height="0" title="Steve Francia thumbnail" %}}
+
+Would load the template/layouts/shortcodes/thumbnail.html
+
+    <!-- image -->
+    <figure {{ if isset .Params "class" }}class="{{ index .Params "class" }}"{{ end }}>
+        {{ if isset .Params "link"}}<a href="{{ index .Params "link"}}">{{ end }}
+			{{ thumbnail .Params "src" 2OO 0 }}
+            <img src="{{ index .Params "src" }}" {{ if or (isset .Params "alt") (isset .Params "caption") }}alt="{{ if isset .Params "alt"}}{{ index .Params "alt"}}{{else}}{{ index .Params "caption" }}{{ end }}"{{ end }} />
+        {{ if isset .Params "link"}}</a>{{ end }}
+        {{ if or (or (isset .Params "title") (isset .Params "caption")) (isset .Params "attr")}}
+        <figcaption>{{ if isset .Params "title" }}
+            <h4>{{ index .Params "title" }}</h4>{{ end }}
+            {{ if or (isset .Params "caption") (isset .Params "attr")}}<p>
+            {{ index .Params "caption" }}
+            {{ if isset .Params "attrlink"}}<a href="{{ index .Params "attrlink"}}"> {{ end }}
+                {{ index .Params "attr" }}
+            {{ if isset .Params "attrlink"}}</a> {{ end }}
+            </p> {{ end }} 
+        </figcaption>
+        {{ end }}
+    </figure>
+    <!-- image -->
+
+Would be rendered as:
+
+    <figure >
+        <img src="/media/spf13.jpg"  />
+        <figcaption>
+            <h4>Steve Francia</h4>
+        </figcaption>
+    </figure>
+
 
 ### Creating a shortcode
 
